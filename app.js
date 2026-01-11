@@ -6,7 +6,8 @@ const {
     mouse,
     keys,
     ClearScreen,
-    canvas
+    canvas,
+    Enemy
 } = classes;
 
 let {
@@ -16,6 +17,7 @@ let {
 let running = true;
 
 const projectiles = [];
+const enemies = [];
 
 const player = new Player(new Vector(400, 800), new Vector(40, 40));
 
@@ -44,6 +46,9 @@ function Draw() {
     for (const projectile of projectiles) {
         projectile.draw();
     }
+    for(const enemy of enemies){
+        enemy.draw();
+    }
     player.draw();
 }
 
@@ -60,10 +65,13 @@ function Logic(deltaTime) {
             projectiles.splice(i, 1);
         }
 
-        
+        for(let j = enemies.length - 1; j >= 0; j--){
+            const distance = projectiles[i].position.distanceTo(enemies[j].position);
+            if(distance < 20){
+                enemies[j].Damage();
+            }
+        }
     }
-
-    console.log(projectiles.length);
 
     const currentTime = Date.now();
 
@@ -87,7 +95,9 @@ function gameLoop(currentTime) {
         requestAnimationFrame(gameLoop);
     }
 }
-
+enemies.push(new Enemy(new Vector(100, 100)));
+enemies.push(new Enemy(new Vector(300, 100)));
+enemies.push(new Enemy(new Vector(600, 100)));
 gameLoop();
 
 //todo:
