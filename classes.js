@@ -32,6 +32,7 @@ class Mouse {
     leftClick = false;
 }
 
+export const allWorldObjects = [];
 
 class WorldObject {
     position = new Vector(0, 0);
@@ -43,6 +44,9 @@ class WorldObject {
         this.position = position;
         this.size = size;
         this.color = color;
+
+        allWorldObjects.push(this);
+        //remove from this when destroyed
     }
 }
 
